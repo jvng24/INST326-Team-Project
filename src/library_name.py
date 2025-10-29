@@ -16,7 +16,56 @@ from datetime import datetime
 
 ############ SIMPLE FUNCTIONS (7) ##############
 
+def count_total_files(archive_records):
+    """Return the total number of files in the archive.
+    
+    Args:
+        archive_records (list): A list of all file records.
+    
+    Returns:
+        int: The total number of files.
+    """
+    return len(archive_records)
 
+
+def get_file_extension(file_name):
+    """Return the file extension from a given file name.
+    
+    Args:
+        file_name (str): The name of the file.
+    
+    Returns:
+        str: The file's extension (e.g., '.pdf').
+    """
+    return '.' + file_name.split('.')[-1] if '.' in file_name else ''
+
+
+def validate_file_format(file_path, allowed_formats=None):
+    """Check if a file's format is allowed.
+    
+    Args:
+        file_path (str): Path or name of the file.
+        allowed_formats (list, optional): List of valid formats. Defaults to ['.pdf', '.jpg', '.png'].
+    
+    Returns:
+        bool: True if the file is in an allowed format, False otherwise.
+    """
+    if allowed_formats is None:
+        allowed_formats = ['.pdf', '.jpg', '.png']
+    return any(file_path.lower().endswith(ext) for ext in allowed_formats)
+
+
+def filter_archive_by_author(archive_records, author_name):
+    """Return all files created by a specific author.
+    
+    Args:
+        archive_records (list[dict]): List of file records.
+        author_name (str): Author to search for.
+    
+    Returns:
+        list[dict]: Files that match the author name.
+    """
+    return [record for record in archive_records if author_name.lower() in record.get("author", "").lower()]
 
 
 
