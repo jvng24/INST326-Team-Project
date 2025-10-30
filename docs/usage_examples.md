@@ -65,3 +65,21 @@ if duplicates:
         print(f"  {dup1} and {dup2}")
 else:
     print("No duplicate files found.")
+
+
+
+#CLASS 1
+
+student = Student("Juliana Nguyen", 10234, 3.2)
+print(f"Created student: {student}")
+
+student.update_gpa(3.8)
+print(f"GPA updated to: {student.gpa}")
+
+if student.is_honors():
+    print(f"{student.name} qualifies for honors!")
+else:
+    print(f"{student.name} does not qualify for honors.")
+
+print("Final student record:", student)
+
