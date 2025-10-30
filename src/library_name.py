@@ -67,11 +67,41 @@ def filter_archive_by_author(archive_records, author_name):
     """
     return [record for record in archive_records if author_name.lower() in record.get("author", "").lower()]
 
+def format_file_size(size_bytes):
+    """Convert a file size in bytes to a human-readable format.
+    
+    Args:
+        size_bytes (int): File size in bytes.
+    
+    Returns:
+        str: Formatted file size (e.g., '2.45 MB').
+    """
+    for unit in ["B", "KB", "MB", "GB", "TB"]:
+        if size_bytes < 1024:
+            return f"{size_bytes:.2f} {unit}"
+        size_bytes /= 1024
 
+def generate_unique_id(prefix="FILE"):
+    """Generate a short unique ID for file naming or tracking.
+    
+    Args:
+        prefix (str): Optional text prefix for the ID. Defaults to 'FILE'.
+    
+    Returns:
+        str: A unique ID string (e.g., 'FILE-9f3a1c2b').
+    """
+    return f"{prefix}-{uuid.uuid4().hex[:8]}"
 
-
-
-
+def get_file_name_without_extension(file_path):
+    """Return the file name without its extension.
+    
+    Args:
+        file_path (str): Path or name of the file.
+    
+    Returns:
+        str: File name without extension.
+    """
+    return os.path.splitext(os.path.basename(file_path))[0]
 
 
 ########### MEDIUM FUNCTIONS (5) ##############
