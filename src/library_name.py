@@ -16,13 +16,92 @@ from datetime import datetime
 
 ############ SIMPLE FUNCTIONS (7) ##############
 
+def count_total_files(archive_records):
+    """Return the total number of files in the archive.
+    
+    Args:
+        archive_records (list): A list of all file records.
+    
+    Returns:
+        int: The total number of files.
+    """
+    return len(archive_records)
 
 
+def get_file_extension(file_name):
+    """Return the file extension from a given file name.
+    
+    Args:
+        file_name (str): The name of the file.
+    
+    Returns:
+        str: The file's extension (e.g., '.pdf').
+    """
+    return '.' + file_name.split('.')[-1] if '.' in file_name else ''
 
 
+def validate_file_format(file_path, allowed_formats=None):
+    """Check if a file's format is allowed.
+    
+    Args:
+        file_path (str): Path or name of the file.
+        allowed_formats (list, optional): List of valid formats. Defaults to ['.pdf', '.jpg', '.png'].
+    
+    Returns:
+        bool: True if the file is in an allowed format, False otherwise.
+    """
+    if allowed_formats is None:
+        allowed_formats = ['.pdf', '.jpg', '.png']
+    return any(file_path.lower().endswith(ext) for ext in allowed_formats)
 
 
+def filter_archive_by_author(archive_records, author_name):
+    """Return all files created by a specific author.
+    
+    Args:
+        archive_records (list[dict]): List of file records.
+        author_name (str): Author to search for.
+    
+    Returns:
+        list[dict]: Files that match the author name.
+    """
+    return [record for record in archive_records if author_name.lower() in record.get("author", "").lower()]
 
+def format_file_size(size_bytes):
+    """Convert a file size in bytes to a human-readable format.
+    
+    Args:
+        size_bytes (int): File size in bytes.
+    
+    Returns:
+        str: Formatted file size (e.g., '2.45 MB').
+    """
+    for unit in ["B", "KB", "MB", "GB", "TB"]:
+        if size_bytes < 1024:
+            return f"{size_bytes:.2f} {unit}"
+        size_bytes /= 1024
+
+def generate_unique_id(prefix="FILE"):
+    """Generate a short unique ID for file naming or tracking.
+    
+    Args:
+        prefix (str): Optional text prefix for the ID. Defaults to 'FILE'.
+    
+    Returns:
+        str: A unique ID string (e.g., 'FILE-9f3a1c2b').
+    """
+    return f"{prefix}-{uuid.uuid4().hex[:8]}"
+
+def get_file_name_without_extension(file_path):
+    """Return the file name without its extension.
+    
+    Args:
+        file_path (str): Path or name of the file.
+    
+    Returns:
+        str: File name without extension.
+    """
+    return os.path.splitext(os.path.basename(file_path))[0]
 
 
 ########### MEDIUM FUNCTIONS (5) ##############

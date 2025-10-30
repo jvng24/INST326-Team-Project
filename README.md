@@ -14,7 +14,11 @@
 
 
 # Installation and Setup Instructions
-- 
+- Save file as library_name.py
+- import os
+- import uuid
+- file_path = "C:/Users/Example/Documents/report1.pdf"
+
 
 
 # Usage Examples for Key Functions
@@ -42,10 +46,13 @@
 
 ## Nathaly Robles - Digital Archives Management System
 
-For my part of the project I did the last 3 simple functions.
+For my part of the project I did the last 3 simple functions. I also updated the readme. 
+
 ## Functions implemeted
 
-1. 
+- format_file_size()
+- generate_unique_id()
+- get_file_name_without_extension()
 
 ## Manasa Chekuri - Digital Archives Management System
 
