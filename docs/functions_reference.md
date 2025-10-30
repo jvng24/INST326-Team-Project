@@ -117,3 +117,54 @@
 
 **Returns:**  
 - `list of tuples`: Each tuple contains paths of duplicate files.
+
+
+
+##### CLASS REFERENCE #######
+
+**CLASS NAME:** `Student`  
+**Description:** Represents a student with attributes and methods for updating academic performance, checking honors eligibility, and displaying information
+
+
+### __init__
+**Purpose:** Initialize a new student with a name, student ID, and GPA.
+
+**Parameters:**  
+- `name` (str): The student’s full name.  
+- `student_id` (int): The unique student identification number.  
+- `gpa` (float): The student’s current GPA.
+
+**Returns:**  
+- None
+
+### update_gpa
+**Purpose:** Update the student’s GPA value if it is within a valid range (0.0–4.0).
+
+**Parameters:**  
+- `new_gpa` (float): The new GPA value to assign.
+
+**Returns:**  
+- None
+
+**Raises:**  
+- `ValueError`: If the new GPA is not between 0.0 and 4.0.
+
+
+### is_honors
+**Purpose:** Determine whether the student qualifies for the honors list.
+
+**Parameters:**  
+- None
+
+**Returns:**  
+- `bool`: True if the student’s GPA is 3.5 or higher, otherwise False.
+
+
+### __str__
+**Purpose:** Provide a readable string representation of the student object for display purposes.
+
+**Parameters:**  
+- None
+
+**Returns:**  
+- `str`: A formatted string showing the student’s name, ID, and GPA.
