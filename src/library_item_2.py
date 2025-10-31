@@ -87,4 +87,51 @@ class ArchiveRecord:
             tags (list[str], optional): Replace or add descriptive tags.
 
         Example:
-            >>> record.ed
+            >>> record.edit_metadata(author="Juliana", tags=["updated", "project"])
+        """
+        if author:
+            self._author = author
+        if tags is not None:
+            if not isinstance(tags, list):
+                raise TypeError("Tags must be provided as a list.")
+            self._tags = tags
+        print(f"Metadata updated for '{self._metadata['name']}'")
+
+    def matches_keyword(self, keyword):
+        """
+        Check if a keyword appears in the file name or tags.
+
+        Args:
+            keyword (str): Keyword to search for.
+
+        Returns:
+            bool: True if the keyword matches, False otherwise.
+
+        Example:
+            >>> record.matches_keyword("final")
+            True
+        """
+        keyword = keyword.lower()
+        return keyword in self._metadata["name"].lower() or any(
+            keyword in tag.lower() for tag in self._tags
+        )
+
+    def display_summary(self):
+        """
+        Display a formatted summary of the record metadata.
+        """
+        print(f"\n📄 File: {self._metadata['name']}")
+        print(f"👤 Author: {self._author}")
+        print(f"🏷️  Tags: {', '.join(self._tags) if self._tags else 'None'}")
+        print(f"💾 Size: {self._metadata['size_kb']} KB")
+        print(f"📁 Type: {self._metadata['type']}")
+        print(f"🕒 Created: {self._metadata['created']}")
+        print(f"✏️  Modified: {self._metadata['modified']}\n")
+
+    # ----- Representation -----
+    def __str__(self):
+        return f"{self._metadata['name']} - {self._author} ({self._metadata['type']})"
+
+    def __repr__(self):
+        return f"<ArchiveRecord id={self._id[:8]} file={self._metadata['name']}>"
+
