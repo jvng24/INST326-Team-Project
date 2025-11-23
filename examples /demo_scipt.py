@@ -346,7 +346,42 @@ def detect_duplicate_files(directory, remove_duplicates=False):
 
 
 
+##########
 
+
+from src.archive_record import ArchiveRecord
+from src.archive_collection import ArchiveCollection
+from src.user import User
+
+# Create archive records
+record1 = ArchiveRecord("example_files/report1.pdf", author="Juliana")
+record2 = ArchiveRecord("example_files/data.csv", author="Manasa")
+record3 = ArchiveRecord("example_files/image.png", author="Nathaly")
+
+
+# Polymorphism: Records and Collections
+collection1 = ArchiveCollection("Project Docs")
+collection1.add_record(record1)
+collection1.add_record(record2)
+
+collection2 = ArchiveCollection("Media Files")
+collection2.add_record(record3)
+
+
+# Collection size demonstration (polymorphic method)
+archive_items = [record1, collection1, collection2]
+for item in archive_items:
+    item.display_info()  # same method, different output
+    print(f"Total size: {item.calculate_size()} KB\n")
+
+
+# Composition: User contains collections
+user = User("Juliana", role="Archivist")
+user.add_collection(collection1)
+user.add_collection(collection2)
+
+user.list_collections()
+user.show_activity_log()
 
 
 
