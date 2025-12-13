@@ -1,66 +1,238 @@
-# INST326-Team-Project
+# INST326 – Team Project
 
-# Project Title and Description
-- Name: CampusDrive 
-- Description: As college students, we’ve noticed that digital files can get lost, mislabeled, or become difficult to find. Whether it’s academic research, media files, or scanned documents, there isn’t a consistent or reliable way to store and retrieve files efficiently. This issue is important because it can lead to the loss of important work, wasted time, and difficulties when collaborating in groups. The project’s foundation is a function library that provides reusable utilities for file organization, metadata management, and data integrity.
+## CampusDrive: Digital Archive Management System
 
-# Team Member Names and Roles
-- Juliana Nguyen
-- Manasa Chekuri
-- Nathaly Robles
+---
 
-# Domain Focus and Problem Statement
-- Our project focuses on Digital Archive Management for schools and large groups. The goal is to improve the organization, storage, and retrieval of digital files such as research papers, media files, scanned documents, and collaborative project resources. By providing a structured and secure way to manage files, our system supports better workflow, reduces time spent searching for documents, and ensures important work is preserved and easily shareable. 
+## Project Overview
 
+**CampusDrive** is a digital archive management system designed to help students and collaborative groups organize, store, and retrieve digital files efficiently. As college students, we observed that files are often lost, mislabeled, duplicated, or difficult to locate across personal devices and shared folders. This leads to wasted time, poor collaboration, and potential loss of important academic work.
 
-# Installation and Setup Instructions
-- Save file as library_name.py
-- import os
-- import uuid
-- file_path = "C:/Users/Example/Documents/report1.pdf"
+CampusDrive addresses these challenges by combining:
 
+* A reusable **function library** for file and metadata management
+* An **object-oriented archive system** (records, collections, users)
+* Tools for **searching, organizing, validating, backing up, and reporting** on files
 
+Together, these components create a scalable, user-friendly digital archive suitable for schools and large group projects.
 
-# Usage Examples for Key Functions
-- In extract file metadata you can get details about a file. This could be things such as its name, size, type, extension, folder location, and timestamps. For example, extracting metadata from report.pdf will tell you when it was created, modified, and its file type
-- In Validate metadata fields, after extracting metadata, you can check if all required fields exist and are not empty. For example, you might make sure that the file has name, size, type, and created fields before processing it further.
+---
 
+## Team Members and Contributions
 
-# Function Library Overview and Organization
+* **Juliana Nguyen**
 
-- Medium Complexity --> These functions handle common tasks related to file management and metadata:
-    - extract_file_metadata: Retrieves metadata from files
-    - validate_metadata_fields: Ensures required metadata fields exist and are valid.
-    - calculate_file_checksum: Generates checksums to verify file integrity or detect duplicates.
-    - rename_file_with_id: Renames files to include a unique identifier.
-    - list_files_by_type: Lists all files of a specific type in a folder.
+  * Wrote and structured the README documentation
+  * Implemented medium- and complex-level functions in the function library
+  * Created usage examples and reporting utilities
 
-- Complex Functions --> These functions perform larger-scale operations, often involving multiple files or complex processing:
-    - organize_files_by_metadata: Automatically sorts files into subfolders based on metadata.
-    - generate_archive_report: Produces a detailed summary report of a folder’s contents, including file counts, sizes, and types
-    - detect_duplicate_files: Identifies duplicate files within a directory using checksums.
+* **Nathaly Robles**
 
+  * Implemented simple utility functions
+  * Updated and refined README documentation
+  * Contributed to core file-handling logic
 
-# Contribution Guidelines for Team Members 
-- Juliana = I did the README as well as the examples, and functiosn for the medium and complex functions. 
+* **Manasa Chekuri**
 
-## Nathaly Robles - Digital Archives Management System
+  * Expanded the function library with advanced archive operations
+  * Designed and implemented object-oriented archive components (records, collections, users)
 
-For my part of the project I did the last 3 simple functions. I also updated the readme. 
+---
 
-## Functions implemeted
+## Domain Focus and Problem Statement
 
-- format_file_size()
-- generate_unique_id()
-- get_file_name_without_extension()
+**Domain:** Digital Archive Management for academic institutions and collaborative environments.
 
-## Manasa Chekuri - Digital Archives Management System
+**Problem:** Digital files such as research papers, media, scanned documents, and group resources are frequently disorganized, duplicated, or lost. Existing folder systems do not scale well and lack consistent metadata, searchability, and integrity checks.
 
-For my part of the project I added 5 more functions that ensure our code aligns with our topic and build off what Nathaly started.
+**Solution:** CampusDrive provides a structured archive system that:
 
-## Functions Added
-1. 'filter_archive_by_author(archive_records, author_name)'
-2. 'edit_metadata(record_id, updated_fields, archive_db)'
-3. 'search_files_by_keyword(archive_records, keyword)'
-4. 'backup_archive_database(source_path, backup_path)'
-5. 'generate_storage_report(archive_records)'
+* Stores files with consistent metadata
+* Enables keyword, author, and type-based searching
+* Detects duplicates and validates file integrity
+* Supports collections, users, and scalable organization
+
+---
+
+## Installation and Setup
+
+1. Save the main utility library as:
+
+   ```
+   library_name.py
+   ```
+
+2. Ensure Python 3 is installed.
+
+3. Place files to be managed inside a directory on your system.
+
+4. Example setup:
+
+   ```python
+   file_path = "C:/Users/Example/Documents/report1.pdf"
+   ```
+
+---
+
+## System Architecture
+
+CampusDrive consists of **two major components**:
+
+### 1. Function Library
+
+A reusable set of simple, medium, and complex functions for file handling and analysis.
+
+### 2. Object-Oriented Archive System
+
+Classes that represent real-world archive entities:
+
+* `ArchiveRecord` – individual files
+* `ArchiveCollection` – groups of records
+* `User` – users who manage collections
+* `DirectoryManager` – manages directories and filesystem operations
+
+---
+
+## Function Library Overview
+
+### Simple Functions
+
+* `count_total_files(archive_records)`
+* `get_file_extension(file_name)`
+* `validate_file_format(file_path, allowed_formats)`
+* `filter_archive_by_author(archive_records, author_name)`
+* `format_file_size(size_bytes)`
+* `generate_unique_id(prefix)`
+* `get_file_name_without_extension(file_path)`
+
+These functions perform basic validation, formatting, and filtering tasks.
+
+---
+
+### Medium-Complexity Functions
+
+* `extract_file_metadata(file_path)`
+  Retrieves file name, size, type, extension, folder, and timestamps.
+
+* `validate_metadata_fields(metadata, required_fields)`
+  Ensures required metadata exists and is valid.
+
+* `calculate_file_checksum(file_path, algorithm)`
+  Generates hashes for integrity verification and duplicate detection.
+
+* `rename_file_with_id(file_path, unique_id)`
+  Renames files using unique identifiers.
+
+* `list_files_by_type(directory, file_type)`
+  Recursively finds files by extension.
+
+---
+
+### Complex Functions
+
+* `organize_files_by_metadata(directory, metadata_field)`
+  Automatically sorts files into subfolders based on metadata.
+
+* `generate_archive_report(directory, output_path)`
+  Creates a detailed report including file counts, sizes, types, and trends.
+
+* `detect_duplicate_files(directory, remove_duplicates)`
+  Identifies duplicate files using checksums and optionally removes them.
+
+* `backup_archive_database(source_path, backup_path)`
+  Creates a backup of the archive for data protection.
+
+* `generate_storage_report(archive_records)`
+  Summarizes archive size and storage usage.
+
+---
+
+## Object-Oriented Archive System
+
+### Abstract Base Class
+
+* `AbstractArchiveItem`
+  Defines required methods (`display_info`, `calculate_size`) for archive items.
+
+---
+
+### ArchiveRecord
+
+Represents a single file and its metadata.
+
+**Features:**
+
+* Unique ID assignment
+* Metadata extraction
+* Author and tag support
+* Keyword searching
+* Metadata editing
+
+---
+
+### ArchiveCollection
+
+Groups related `ArchiveRecord` objects.
+
+**Features:**
+
+* Add and remove records
+* Search by author or keyword
+* Collection summaries
+* Size calculations
+
+---
+
+### User
+
+Represents a system user who owns collections.
+
+**Features:**
+
+* User roles (Viewer, Archivist)
+* Multiple collections
+* Activity logging
+* Collection management
+
+---
+
+### DirectoryManager
+
+Handles filesystem-level operations.
+
+**Features:**
+
+* Lists files by type
+* Extracts metadata
+* Organizes directories
+* Detects and removes duplicates
+* Tracks scan history
+
+---
+
+## Key Features Implemented
+
+* File upload and storage
+* Metadata extraction and editing
+* Keyword, author, and type-based search
+* Duplicate detection using checksums
+* Automatic directory organization
+* Archive reporting and summaries
+* Backup and data integrity tools
+* Scalable object-oriented design
+
+---
+
+## Project Goals Achieved
+
+✔ Centralized digital archive
+✔ Searchable metadata system
+✔ File integrity and duplicate protection
+✔ Scalable and modular design
+✔ Professional documentation and structure
+
+---
+
+## Conclusion
+
+CampusDrive demonstrates a complete digital archive management solution that integrates functional programming, object-oriented design, and real-world file system operations. The project showcases teamwork, scalability, and professional software development practices aligned with real academic and collaborative needs.
