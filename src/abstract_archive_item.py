@@ -4,16 +4,19 @@ class AbstractArchiveItem(ABC):
     """
     Abstract base class for all archive items.
 
-    All archive items must implement display_info().
+    Ensures files and collections share a common interface
+    and can be handled polymorphically.
     """
 
+    def __init__(self, name: str):
+        self._name = name
+
     @abstractmethod
-    def display_info(self):
-        """Display information about the item."""
+    def display_info(self) -> None:
+        """Display information about the archive item."""
         pass
 
     @abstractmethod
-    def calculate_size(self):
-        """Return the size of the item (in KB)."""
+    def calculate_size(self) -> float:
+        """Return the size of the item in KB."""
         pass
-
