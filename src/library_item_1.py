@@ -1,25 +1,17 @@
 import os
 import shutil
-from datetime import datetime
 import mimetypes
 import hashlib
+from datetime import datetime
+from archive_record import ArchiveRecord
+
 
 class DirectoryManager:
     """
-    Reps and manages a directory of files within our digital archive system
-
+    Manages a directory of files within the digital archive system.
     """
 
-    def __init__(self, directory_path):
-        """
-        Initialize a DirectoryManager object.
-
-        Args:
-            directory_path (str): The path of the directory to manage.
-
-        Raises:
-            FileNotFoundError: If the directory does not exist.
-        """
+    def __init__(self, directory_path: str):
         if not os.path.exists(directory_path):
             raise FileNotFoundError(f"Directory '{directory_path}' does not exist.")
         if not os.path.isdir(directory_path):
@@ -28,107 +20,90 @@ class DirectoryManager:
         self._directory_path = directory_path
         self._last_scanned = None
 
+    # ---------- Properties ----------
 
     @property
-    def directory_path(self):
-        """str: Get the directory path."""
+    def directory_path(self) -> str:
         return self._directory_path
 
     @property
     def last_scanned(self):
-        """datetime or None: When the directory was last scanned."""
         return self._last_scanned
 
-    def list_files_by_type(self, file_type):
-        """
-        List all files of a given type in the directory (and subdirectories).
+    # ---------- Core Functionality ----------
 
-        Args:
-            file_type (str): File extension (e.g., ".pdf", ".txt").
-
-        Returns:
-            list[str]: List of file paths.
+    def scan_records(self) -> list[ArchiveRecord]:
         """
+        Scan the directory and return ArchiveRecord objects.
+        """
+        records = []
+        for root, _, files in os.walk(self._directory_path):
+            for f in files:
+                if f.startswith("."):
+                    continue
+                path = os.path.join(root, f)
+                try:
+                    records.append(ArchiveRecord(path))
+                except FileNotFoundError:
+                    continue
+
+        self._last_scanned = datetime.now()
+        return records
+
+    def list_files_by_type(self, file_type: str) -> list[str]:
         matches = []
         for root, _, files in os.walk(self._directory_path):
             for f in files:
                 if f.lower().endswith(file_type.lower()):
                     matches.append(os.path.join(root, f))
-        print(f"Found {len(matches)} {file_type} files in {self._directory_path}")
+
         self._last_scanned = datetime.now()
         return matches
 
-    def extract_file_metadata(self, file_path):
-        """
-        Extract metadata from a file (integrates extract_file_metadata from Project 1).
-
-        Args:
-            file_path (str): File path.
-
-        Returns:
-            dict: Metadata including name, size, type, and timestamps.
-        """
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"{file_path} does not exist.")
-
+    def extract_file_metadata(self, file_path: str) -> dict:
         stat = os.stat(file_path)
         return {
             "name": os.path.basename(file_path),
-            "size": f"{stat.st_size / 1024:.2f} KB",
+            "size_kb": round(stat.st_size / 1024, 2),
             "type": mimetypes.guess_type(file_path)[0] or "unknown",
             "created": datetime.fromtimestamp(stat.st_ctime),
             "modified": datetime.fromtimestamp(stat.st_mtime),
         }
 
-    def organize_by_metadata(self, metadata_field="type"):
+    def organize_by_metadata(self, metadata_field: str = "type") -> list[tuple]:
         """
-        Organize files in the directory into subfolders based on a metadata field.
-
-        Args:
-            metadata_field (str): Field to group by ("type" or "created").
-
-        Returns:
-            int: Number of files moved.
+        Organize files into subfolders based on metadata.
+        Returns list of (old_path, new_path).
         """
-        moved_files = 0
+        moved = []
+
+        files_to_process = []
         for root, _, files in os.walk(self._directory_path):
             for f in files:
-                if f.startswith('.'):
+                if f.startswith("."):
                     continue
-                path = os.path.join(root, f)
-                meta = self.extract_file_metadata(path)
-                field_value = meta.get(metadata_field, "Unknown")
+                files_to_process.append(os.path.join(root, f))
 
-                folder_name = str(field_value).replace(" ", "_").replace("/", "-")
-                target_folder = os.path.join(self._directory_path, folder_name)
+        for path in files_to_process:
+            meta = self.extract_file_metadata(path)
+            value = str(meta.get(metadata_field, "Unknown")).replace(" ", "_")
+            target_folder = os.path.join(self._directory_path, value)
+            os.makedirs(target_folder, exist_ok=True)
 
-                os.makedirs(target_folder, exist_ok=True)
-                new_path = os.path.join(target_folder, f)
+            new_path = os.path.join(target_folder, os.path.basename(path))
+            if os.path.exists(new_path):
+                base, ext = os.path.splitext(new_path)
+                counter = 1
+                while os.path.exists(f"{base}_{counter}{ext}"):
+                    counter += 1
+                new_path = f"{base}_{counter}{ext}"
 
-                # Handle conflicts
-                if os.path.exists(new_path):
-                    base, ext = os.path.splitext(f)
-                    counter = 1
-                    while os.path.exists(os.path.join(target_folder, f"{base}_{counter}{ext}")):
-                        counter += 1
-                    new_path = os.path.join(target_folder, f"{base}_{counter}{ext}")
+            shutil.move(path, new_path)
+            moved.append((path, new_path))
 
-                shutil.move(path, new_path)
-                moved_files += 1
+        return moved
 
-        print(f"Moved {moved_files} files into folders based on '{metadata_field}'.")
-        return moved_files
-
-    def detect_duplicates(self, remove_duplicates=False):
-        """
-        Detect duplicate files in the directory using file checksums.
-
-        Args:
-            remove_duplicates (bool): If True, delete duplicate files.
-
-        Returns:
-            list[tuple]: List of duplicate file pairs.
-        """
+    def detect_duplicates(self, remove_duplicates: bool = False) -> list[tuple]:
         checksums = {}
         duplicates = []
 
@@ -142,8 +117,8 @@ class DirectoryManager:
                 with open(path, "rb") as file:
                     for chunk in iter(lambda: file.read(4096), b""):
                         hasher.update(chunk)
-                checksum = hasher.hexdigest()
 
+                checksum = hasher.hexdigest()
                 if checksum in checksums:
                     duplicates.append((checksums[checksum], path))
                     if remove_duplicates:
@@ -151,10 +126,10 @@ class DirectoryManager:
                 else:
                     checksums[checksum] = path
 
-        print(f"Found {len(duplicates)} duplicate pairs.")
         return duplicates
 
- 
+    # ---------- String Representations ----------
+
     def __str__(self):
         return f"DirectoryManager(path='{self._directory_path}')"
 
