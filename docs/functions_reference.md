@@ -1,170 +1,200 @@
-# Simple function references 
+# **Simple Function References**
 
+### 1. `extract_file_metadata`
 
-
-
-
-
-
-
-
-### extract_file_metadata
 **Purpose:** Extract metadata from a file including name, size, type, extension, folder, and timestamps.
 
-**Parameters:**  
-- `file_path` (str): Path to the file.
+**Parameters:**
 
-**Returns:**  
-- `dict`: Metadata including name, size, type, extension, folder, created, modified.
+* `file_path (str)`: Path to the file.
 
-**Raises:**  
-- `FileNotFoundError`: If the file does not exist.
+**Returns:**
 
+* `dict`: Metadata including name, size, type, extension, folder, created, modified.
 
-----------------------------------------------------------
+**Raises:**
 
-### validate_metadata_fields
+* `FileNotFoundError`: If the file does not exist.
+
+---
+
+### 2. `validate_metadata_fields`
+
 **Purpose:** Ensure all required metadata fields exist and are not empty.
 
-**Parameters:**  
-- `metadata` (dict)  
-- `required_fields` (list of str)
+**Parameters:**
 
-**Returns:**  
-- `bool`: True if all required fields are present and not empty, False otherwise.
+* `metadata (dict)`
+* `required_fields (list of str)`
 
+**Returns:**
 
-----------------------------------------------------------
-### calculate_file_checksum
+* `bool`: True if all required fields are present and not empty, False otherwise.
+
+---
+
+### 3. `calculate_file_checksum`
+
 **Purpose:** Generate a checksum for a file using a specified algorithm for integrity verification or duplicate detection.
 
-**Parameters:**  
-- `file_path` (str)  
-- `algorithm` (str, optional): "md5", "sha1", or "sha256" (default `"sha256"`)
+**Parameters:**
 
-**Returns:**  
-- `str`: Hexadecimal hash of the file.
+* `file_path (str)`
+* `algorithm (str, optional)`: `"md5"`, `"sha1"`, or `"sha256"` (default `"sha256"`)
 
-**Raises:**  
-- `ValueError`: If the algorithm is unsupported.
+**Returns:**
 
+* `str`: Hexadecimal hash of the file.
 
-----------------------------------------------------------
+**Raises:**
 
-### rename_file_with_id
+* `ValueError`: If the algorithm is unsupported.
+
+---
+
+### 4. `rename_file_with_id`
+
 **Purpose:** Rename a file to include a unique ID before its extension.
 
-**Parameters:**  
-- `file_path` (str)  
-- `unique_id` (str)
+**Parameters:**
 
-**Returns:**  
-- `str`: New file path.
+* `file_path (str)`
+* `unique_id (str)`
 
+**Returns:**
 
-----------------------------------------------------------
+* `str`: New file path.
 
-### list_files_by_type
+---
+
+### 5. `list_files_by_type`
+
 **Purpose:** List all files of a specific type in a directory and subdirectories.
 
-**Parameters:**  
-- `directory` (str)  
-- `file_type` (str): File extension (e.g., ".pdf")
+**Parameters:**
 
-**Returns:**  
-- `list of str`: Paths of matching files.
+* `directory (str)`
+* `file_type (str)`: File extension (e.g., `".pdf"`)
 
+**Returns:**
 
-----------------------------------------------------------
+* `list of str`: Paths of matching files.
 
-## COMPLEX FUNCTIONS (30+ lines)
+---
 
-### organize_files_by_metadata
+# **Complex Functions (30+ lines)**
+
+### 1. `organize_files_by_metadata`
+
 **Purpose:** Organize files (including subfolders) based on a specified metadata field.
 
-**Parameters:**  
-- `directory` (str)  
-- `metadata_field` (str)
+**Parameters:**
 
-**Returns:**  
-- None
+* `directory (str)`
+* `metadata_field (str)`
 
-**Raises:**  
-- `FileNotFoundError`: If a file does not exist.
+**Returns:**
 
+* `None`
 
-----------------------------------------------------------
+**Raises:**
 
-### generate_archive_report
+* `FileNotFoundError`: If a file does not exist.
+
+---
+
+### 2. `generate_archive_report`
+
 **Purpose:** Generate a detailed archive report including file count, total size, file types, month created, and top 5 largest files.
 
-**Parameters:**  
-- `directory` (str)  
-- `output_path` (str)
+**Parameters:**
 
-**Returns:**  
-- None
+* `directory (str)`
+* `output_path (str)`
 
+**Returns:**
 
-----------------------------------------------------------
+* `None`
 
-### detect_duplicate_files
+---
+
+### 3. `detect_duplicate_files`
+
 **Purpose:** Detect duplicate files in a directory using checksums; optionally remove duplicates.
 
-**Parameters:**  
-- `directory` (str)  
-- `remove_duplicates` (bool, optional, default False)
+**Parameters:**
 
-**Returns:**  
-- `list of tuples`: Each tuple contains paths of duplicate files.
+* `directory (str)`
+* `remove_duplicates (bool, optional, default False)`
 
+**Returns:**
 
+* `list of tuples`: Each tuple contains paths of duplicate files.
 
-##### CLASS REFERENCE #######
+---
 
-**CLASS NAME:** `Student`  
-**Description:** Represents a student with attributes and methods for updating academic performance, checking honors eligibility, and displaying information
+# **Class Reference**
 
+### **CLASS NAME: Student**
 
-### __init__
+**Description:** Represents a student with attributes and methods for updating academic performance, checking honors eligibility, and displaying information.
+
+#### **1. `__init__`**
+
 **Purpose:** Initialize a new student with a name, student ID, and GPA.
 
-**Parameters:**  
-- `name` (str): The student’s full name.  
-- `student_id` (int): The unique student identification number.  
-- `gpa` (float): The student’s current GPA.
+**Parameters:**
 
-**Returns:**  
-- None
+* `name (str)`: The student’s full name.
+* `student_id (int)`: Unique student ID.
+* `gpa (float)`: Current GPA.
 
-### update_gpa
+**Returns:**
+
+* `None`
+
+---
+
+#### **2. `update_gpa`**
+
 **Purpose:** Update the student’s GPA value if it is within a valid range (0.0–4.0).
 
-**Parameters:**  
-- `new_gpa` (float): The new GPA value to assign.
+**Parameters:**
 
-**Returns:**  
-- None
+* `new_gpa (float)`
 
-**Raises:**  
-- `ValueError`: If the new GPA is not between 0.0 and 4.0.
+**Returns:**
 
+* `None`
 
-### is_honors
+**Raises:**
+
+* `ValueError`: If the new GPA is not between 0.0 and 4.0.
+
+---
+
+#### **3. `is_honors`**
+
 **Purpose:** Determine whether the student qualifies for the honors list.
 
-**Parameters:**  
-- None
+**Parameters:**
 
-**Returns:**  
-- `bool`: True if the student’s GPA is 3.5 or higher, otherwise False.
+* None
 
+**Returns:**
 
-### __str__
-**Purpose:** Provide a readable string representation of the student object for display purposes.
+* `bool`: True if GPA ≥ 3.5, else False.
 
-**Parameters:**  
-- None
+---
 
-**Returns:**  
-- `str`: A formatted string showing the student’s name, ID, and GPA.
+#### **4. `__str__`**
+
+**Purpose:** Provide a readable string representation of the student object.
+
+**Parameters:**
+
+* None
+
+**Returns:**
+
+* `str`: Formatted string showing name, ID, and GPA.
