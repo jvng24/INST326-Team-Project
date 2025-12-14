@@ -4,6 +4,9 @@
 
 ---
 
+## Link to presentation
+https://drive.google.com/file/d/1pAsMos24BlQ8I5kWbZHgsm3LXZxuBL3Y/view?usp=sharing 
+
 ## Project Overview
 
 **CampusDrive** is a digital archive management system designed to help students and collaborative groups organize, store, and retrieve digital files efficiently. As college students, we observed that files are often lost, mislabeled, duplicated, or difficult to locate across personal devices and shared folders. This leads to wasted time, poor collaboration, and potential loss of important academic work.
